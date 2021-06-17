@@ -1,0 +1,12 @@
+{
+  "name": "botchat",
+  "displayName": "botchat",
+  "expo": {
+    "name": "botchat",
+    "slug": "botchat",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
