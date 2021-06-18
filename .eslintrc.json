@@ -51,8 +51,8 @@
           "tsx": "never"
         }
       ],
-      "prettier/prettier": "error"
-
+      "prettier/prettier": "error",
+      "camelcase":"off"
     },
     "settings": {
       "import/resolver": {

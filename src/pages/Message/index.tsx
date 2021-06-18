@@ -23,7 +23,7 @@ const Message: React.FC = () => {
 
   return (
     <>
-      <Header title="Nome do Cliente" />
+      <Header title="Cliente" />
       <Container>
         <Scroll>
           <TextMessage>{sendMessage}</TextMessage>
