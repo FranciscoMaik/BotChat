@@ -60,11 +60,43 @@ export const ViewInput = styled.View`
 export const Input = styled.TextInput`
   padding-left: 15px;
   font-size: 19px;
-  width: 83%;
+  width: 67%;
 `;
 
 export const ButtonSend = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   margin-right: 6px;
+`;
+
+export const ViewButtons = styled.View`
+  flex-direction: row;
+`;
+
+// Modal
+export const Modal = styled.Modal``;
+
+export const UploadArchivo = styled.View`
+  flex: 1;
+  background-color: transparent;
+  justify-content: flex-end;
+`;
+
+export const ButtonExitModal = styled.TouchableOpacity`
+  width: 15px;
+`;
+
+export const ViewItens = styled.View`
+  height: 30%;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 15px;
+`;
+
+export const ViewSup = styled.View`
+  width: 100%;
+  height: 50%;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 `;

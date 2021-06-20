@@ -15,6 +15,12 @@ import {
   ButtonSend,
   ViewReceived,
   ViewSend,
+  Modal,
+  UploadArchivo,
+  ViewItens,
+  ViewSup,
+  ViewButtons,
+  ButtonExitModal,
 } from './styles';
 
 interface ResponseMessages {
@@ -29,11 +35,9 @@ interface ResponseMessages {
 
 const Message: React.FC = props => {
   const [message, setMessage] = useState('');
-  const [sendMessage, setSendMessage] = useState(['']);
   const [chat, setChat] = useState<ResponseMessages[]>([]);
   const [chatIn, setChatIn] = useState<ResponseMessages[]>([]);
-
-  // console.log(props.route.params.params.uuid);
+  const [visible, setVisible] = useState(false);
 
   const orderItens = useCallback(() => {
     const newOrder = chat.sort(function (a, b) {
@@ -50,6 +54,18 @@ const Message: React.FC = props => {
     setChatIn(newOrder);
   }, [chat]);
 
+  const handleSendMessage = useCallback(async () => {
+    if (message !== '') {
+      const formData = new FormData();
+      formData.append('message', `${message}`);
+      formData.append('help_desk', `${props.route.params.params.uuid}`);
+
+      await api.post('/send-message/', formData);
+
+      setMessage('');
+    }
+  }, [message, props.route.params.params.uuid]);
+
   useEffect(() => {
     async function handleRequestMessages() {
       const response = await api.get(
@@ -63,13 +79,27 @@ const Message: React.FC = props => {
     orderItens();
   }, [props.route.params.params.uuid, orderItens]);
 
-  const handleSend = useCallback(() => {
-    setSendMessage([...sendMessage, message]);
-    setMessage('');
-  }, [message, sendMessage]);
-
   return (
     <>
+      <Modal transparent visible={visible} animationType="slide">
+        <UploadArchivo>
+          <ViewItens>
+            <ButtonExitModal onPress={() => setVisible(!visible)}>
+              <MCI name="close-thick" size={15} color="#000000" />
+            </ButtonExitModal>
+            <ViewSup>
+              <MCI name="image" size={45} color="#000000" />
+              <MCI name="image" size={45} color="#000000" />
+              <MCI name="image" size={45} color="#000000" />
+            </ViewSup>
+            <ViewSup>
+              <MCI name="image" size={45} color="#000000" />
+              <MCI name="image" size={45} color="#000000" />
+              <MCI name="image" size={45} color="#000000" />
+            </ViewSup>
+          </ViewItens>
+        </UploadArchivo>
+      </Modal>
       <Header title="Cliente" />
       <Container>
         <Scroll>
@@ -96,9 +126,14 @@ const Message: React.FC = props => {
             onChangeText={value => setMessage(value)}
             multiline
           />
-          <ButtonSend onPress={() => handleSend()}>
-            <MCI name="send-circle" size={51} color="#0CAAE8" />
-          </ButtonSend>
+          <ViewButtons>
+            <ButtonSend onPress={() => setVisible(!visible)}>
+              <MCI name="paperclip" size={35} color="#0CAAE8" />
+            </ButtonSend>
+            <ButtonSend onPress={() => handleSendMessage()}>
+              <MCI name="send-circle" size={51} color="#0CAAE8" />
+            </ButtonSend>
+          </ViewButtons>
         </ViewInput>
       </Container>
     </>

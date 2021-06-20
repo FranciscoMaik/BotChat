@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -24,6 +24,9 @@ interface ResponseProps {
     updated_at: string;
     name: string;
     phone: string;
+  };
+  last_message: {
+    created_at: string;
   };
 }
 
