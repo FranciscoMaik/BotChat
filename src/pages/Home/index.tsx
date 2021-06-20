@@ -54,6 +54,7 @@ const Home: React.FC = () => {
                 navigate('Message', {
                   params: {
                     name: msg.client.name,
+                    uuid: msg.uuid,
                   },
                 })
               }
