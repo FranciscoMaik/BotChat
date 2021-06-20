@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { MaterialCommunityIcons as MCI } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
 
 import api from '../../services/api';
 
@@ -21,6 +23,7 @@ import {
   ViewSup,
   ViewButtons,
   ButtonExitModal,
+  ButtonRead,
 } from './styles';
 
 interface ResponseMessages {
@@ -38,6 +41,39 @@ const Message: React.FC = props => {
   const [chat, setChat] = useState<ResponseMessages[]>([]);
   const [chatIn, setChatIn] = useState<ResponseMessages[]>([]);
   const [visible, setVisible] = useState(false);
+  const [uri, setUri] = useState('');
+
+  const handleSendMessage = useCallback(async (msg, help) => {
+    if (msg !== '') {
+      const formData = new FormData();
+      formData.append('message', `${msg}`);
+      formData.append('help_desk', `${help}`);
+
+      await api.post('/send-message/', formData);
+
+      setMessage('');
+    }
+  }, []);
+
+  const pickerImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    console.log(typeof result.uri);
+    // setUri(result.uri);
+    handleSendMessage(result.uri, props.route.params.params.uuid);
+  };
+
+  const documentoPicker = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      copyToCacheDirectory: true,
+    });
+
+    handleSendMessage(result.name, props.route.params.params.uuid);
+  };
 
   const orderItens = useCallback(() => {
     const newOrder = chat.sort(function (a, b) {
@@ -53,18 +89,6 @@ const Message: React.FC = props => {
 
     setChatIn(newOrder);
   }, [chat]);
-
-  const handleSendMessage = useCallback(async () => {
-    if (message !== '') {
-      const formData = new FormData();
-      formData.append('message', `${message}`);
-      formData.append('help_desk', `${props.route.params.params.uuid}`);
-
-      await api.post('/send-message/', formData);
-
-      setMessage('');
-    }
-  }, [message, props.route.params.params.uuid]);
 
   useEffect(() => {
     async function handleRequestMessages() {
@@ -88,14 +112,12 @@ const Message: React.FC = props => {
               <MCI name="close-thick" size={15} color="#000000" />
             </ButtonExitModal>
             <ViewSup>
-              <MCI name="image" size={45} color="#000000" />
-              <MCI name="image" size={45} color="#000000" />
-              <MCI name="image" size={45} color="#000000" />
-            </ViewSup>
-            <ViewSup>
-              <MCI name="image" size={45} color="#000000" />
-              <MCI name="image" size={45} color="#000000" />
-              <MCI name="image" size={45} color="#000000" />
+              <ButtonRead onPress={() => pickerImage()}>
+                <MCI name="image" size={45} color="#000000" />
+              </ButtonRead>
+              <ButtonRead onPress={() => documentoPicker()}>
+                <MCI name="file-document-outline" size={45} color="#000000" />
+              </ButtonRead>
             </ViewSup>
           </ViewItens>
         </UploadArchivo>
@@ -130,7 +152,11 @@ const Message: React.FC = props => {
             <ButtonSend onPress={() => setVisible(!visible)}>
               <MCI name="paperclip" size={35} color="#0CAAE8" />
             </ButtonSend>
-            <ButtonSend onPress={() => handleSendMessage()}>
+            <ButtonSend
+              onPress={() =>
+                handleSendMessage(message, props.route.params.params.uuid)
+              }
+            >
               <MCI name="send-circle" size={51} color="#0CAAE8" />
             </ButtonSend>
           </ViewButtons>

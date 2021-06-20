@@ -100,3 +100,5 @@ export const ViewSup = styled.View`
   justify-content: space-around;
   align-items: center;
 `;
+
+export const ButtonRead = styled.TouchableOpacity``;

@@ -21,6 +21,8 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4",
     "expo": "~41.0.1",
+    "expo-document-picker": "~9.1.2",
+    "expo-image-picker": "~10.1.4",
     "expo-splash-screen": "~0.10.2",
     "expo-updates": "~0.5.4",
     "react": "16.13.1",
