@@ -41,7 +41,6 @@ const Message: React.FC = props => {
   const [chat, setChat] = useState<ResponseMessages[]>([]);
   const [chatIn, setChatIn] = useState<ResponseMessages[]>([]);
   const [visible, setVisible] = useState(false);
-  const [uri, setUri] = useState('');
 
   const handleSendMessage = useCallback(async (msg, help) => {
     if (msg !== '') {
@@ -62,8 +61,6 @@ const Message: React.FC = props => {
       quality: 1,
     });
 
-    console.log(typeof result.uri);
-    // setUri(result.uri);
     handleSendMessage(result.uri, props.route.params.params.uuid);
   };
 

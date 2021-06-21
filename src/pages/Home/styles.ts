@@ -30,3 +30,9 @@ export const Phone = styled.Text`
   font-size: 16px;
   margin-top: 5px;
 `;
+
+export const ViewSuper = styled.View`
+  width: 100%;
+  align-items: center;
+  flex-direction: row;
+`;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { KEY } from '@env';
 
 import api from '../../services/api';
 
@@ -37,7 +38,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     async function callMessagens() {
       const response = await api.get('help-desks/', {
-        params: { organization: 'maik' },
+        params: { organization: KEY },
       });
 
       setReceived(response.data);
@@ -63,6 +64,7 @@ const Home: React.FC = () => {
               }
               key={msg.uuid}
             >
+              <MaterialCommunityIcons name="robot" size={76} color="#000000" />
               <Information>
                 <NameCliente>{msg.client.name}</NameCliente>
                 <Phone>Tel: {msg.client.phone}</Phone>
