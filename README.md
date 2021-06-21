@@ -51,10 +51,10 @@ A aplicação é um app de conversa onde você possui alguns bots e pode enviar 
 </p>
 
 ## Melhoramentos
-  - [ ] Conexão direta com o Webocket
-  - [ ] Mostar Arquivos na conversa
+  - [ ] Conexão direta com o Websocket
+  - [ ] Mostrar Arquivos na conversa
   - [ ] Rolagem automatica para o fim da conversa
-  - [ ] Iciar outra conversa
+  - [ ] Iniciar outra conversa
   - [ ] Organizar as conversar pelo ultimo contato
 
 ## Contato
