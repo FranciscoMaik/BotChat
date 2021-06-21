@@ -41,6 +41,8 @@ const Message: React.FC = props => {
   const [chat, setChat] = useState<ResponseMessages[]>([]);
   const [chatIn, setChatIn] = useState<ResponseMessages[]>([]);
   const [visible, setVisible] = useState(false);
+  const [uuid, setUuid] = useState(props.route.params.params.uuid);
+  const [name, setName] = useState(props.route.params.params.name);
 
   const handleSendMessage = useCallback(async (msg, help) => {
     if (msg !== '') {
@@ -61,7 +63,7 @@ const Message: React.FC = props => {
       quality: 1,
     });
 
-    handleSendMessage(result.uri, props.route.params.params.uuid);
+    handleSendMessage(result.uri, uuid);
   };
 
   const documentoPicker = async () => {
@@ -69,7 +71,7 @@ const Message: React.FC = props => {
       copyToCacheDirectory: true,
     });
 
-    handleSendMessage(result.name, props.route.params.params.uuid);
+    handleSendMessage(result.name, uuid);
   };
 
   const orderItens = useCallback(() => {
@@ -89,16 +91,14 @@ const Message: React.FC = props => {
 
   useEffect(() => {
     async function handleRequestMessages() {
-      const response = await api.get(
-        `/help-desks/${props.route.params.params.uuid}/history/`,
-      );
+      const response = await api.get(`/help-desks/${uuid}/history/`);
 
       setChat(response.data);
     }
 
     handleRequestMessages();
     orderItens();
-  }, [props.route.params.params.uuid, orderItens]);
+  }, [uuid, orderItens]);
 
   return (
     <>
@@ -119,7 +119,7 @@ const Message: React.FC = props => {
           </ViewItens>
         </UploadArchivo>
       </Modal>
-      <Header title="Cliente" />
+      <Header title={name} />
       <Container>
         <Scroll>
           {chatIn.map(msg => {
@@ -149,11 +149,7 @@ const Message: React.FC = props => {
             <ButtonSend onPress={() => setVisible(!visible)}>
               <MCI name="paperclip" size={35} color="#0CAAE8" />
             </ButtonSend>
-            <ButtonSend
-              onPress={() =>
-                handleSendMessage(message, props.route.params.params.uuid)
-              }
-            >
+            <ButtonSend onPress={() => handleSendMessage(message, uuid)}>
               <MCI name="send-circle" size={51} color="#0CAAE8" />
             </ButtonSend>
           </ViewButtons>
